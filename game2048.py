@@ -105,6 +105,28 @@ class Game2048:
                 return False
         return True
 
+    def save_game(self, file: str):
+        '''Saves the game
+        
+        Parameters
+        ----------
+        file: str
+            name of the save'''
+        import numpy as np
+        filename = file + '.txt'
+        np.savetxt(filename, self.board, fmt='%d')
+
+    def load_game(self, file: str):
+        '''Loads a prexisting game
+        
+        Parameters:
+        file: str
+            save file from the game is to be loaded'''
+        #TODO: read the file and save it in self.board
+        import numpy as np
+        filename = file + '.txt'
+        self.board = np.loadtxt(filename, dtype=int)
+
 if __name__ == '__main__':
     game = Game2048()
     # print(game.board)
@@ -119,10 +141,9 @@ if __name__ == '__main__':
     # game._insert_element()
     game.perform_move('right')
     game.display_board()
-    game.update_empty_tiles()
+    game._update_empty_tiles()
     print(game.empty)
     game.perform_move('left')
     game.display_board()
-    game.update_empty_tiles()
-    print(game.empty)
-
+    game.load_game('harsh')
+    game.display_board()
