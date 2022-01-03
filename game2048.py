@@ -1,6 +1,3 @@
-from queue import Queue
-
-
 class Game2048:
     '''a 2048 game'''
     def __init__(self) -> None:
