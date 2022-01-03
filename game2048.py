@@ -17,7 +17,7 @@ class Game2048:
     def display_board(self):
         '''Prints out the board to the console'''
         for row in self.board:
-            print(*row)
+            print(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]} ")
         print('-'*8)
 
     def _check_move(self, direction):
@@ -122,7 +122,6 @@ class Game2048:
         Parameters:
         file: str
             save file from the game is to be loaded'''
-        #TODO: read the file and save it in self.board
         import numpy as np
         filename = file + '.txt'
         self.board = np.loadtxt(filename, dtype=int)
