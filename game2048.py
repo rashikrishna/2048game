@@ -1,12 +1,12 @@
+import numpy as np
 class Game2048:
     '''a 2048 game'''
     def __init__(self) -> None:
-        import numpy as np
         from queue import Queue
         self.board = np.array([[0]*4 for _ in range(4)])
         self.empty = list((a, b) for a in range(4) for b in range(4))
 
-    def _insert_element(self):
+    def insert_element(self):
         '''Inserts a '2' tile in a random empty place'''
         from random import choice
         new_idx = choice(self.empty)
@@ -79,18 +79,25 @@ class Game2048:
     def _update_empty_tiles(self):
         self.empty = tuple((a,b) for a, row in enumerate(self.board) for b, cell in enumerate(row) if cell == 0)
 
-    def perform_move(self, direction):
+    def perform_move(self, direction) -> bool:
         '''Performs a move in a certain direction
         
         Parameters
         ----------
         direction: string
             direction to move
+
+        Returns
+        -------
+        out: bool
+            True if the move is successful
         '''
         new_board = self._check_move(direction)
         if (new_board != self.board).any():
             self.board = new_board
             self._update_empty_tiles()
+            return True
+        return False
 
     def is_game_over(self):
         '''Checks if the game is over
@@ -112,7 +119,6 @@ class Game2048:
         ----------
         file: str
             name of the save'''
-        import numpy as np
         filename = file + '.txt'
         np.savetxt(filename, self.board, fmt='%d')
 
@@ -122,27 +128,18 @@ class Game2048:
         Parameters:
         file: str
             save file from the game is to be loaded'''
-        import numpy as np
-        filename = file + '.txt'
+        filename = file
         self.board = np.loadtxt(filename, dtype=int)
 
-if __name__ == '__main__':
+def main() -> None:
+    print("Welcome to the 2048 game")
+
     game = Game2048()
-    # print(game.board)
-    # print(game.empty)
-    game.display_board()
-    game._insert_element()
-    game.display_board()
-    game._insert_element()
-    game.display_board()
-    game._insert_element()
-    game.display_board()
-    # game._insert_element()
-    game.perform_move('right')
-    game.display_board()
-    game._update_empty_tiles()
-    print(game.empty)
-    game.perform_move('left')
-    game.display_board()
-    game.load_game('harsh')
-    game.display_board()
+    choice = input("Press1\n to start new game\n2 to load a game\n")
+    if choice == 2:
+        file = input("Enter name of file: ")
+        game.load_game(file)
+    
+
+if __name__ == '__main__':
+    main()
